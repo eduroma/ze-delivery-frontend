@@ -12,6 +12,7 @@
     "eslint-plugin-react-hooks": "^4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-places-autocomplete": "^7.3.0",
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
@@ -24,6 +25,7 @@
     "@babel/preset-typescript": "^7.10.4",
     "@types/react": "^16.9.51",
     "@types/react-dom": "^16.9.8",
+    "@types/react-places-autocomplete": "^7.2.6",
     "@types/react-router-dom": "^5.1.6",
     "babel-loader": "^8.1.0",
     "css-loader": "^4.3.0",
