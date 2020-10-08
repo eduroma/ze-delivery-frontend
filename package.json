@@ -11,7 +11,8 @@
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",
@@ -23,6 +24,7 @@
     "@babel/preset-typescript": "^7.10.4",
     "@types/react": "^16.9.51",
     "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.6",
     "babel-loader": "^8.1.0",
     "css-loader": "^4.3.0",
     "eslint": "6.8.0",
@@ -39,6 +41,6 @@
     "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
-    "start": "webpack-dev-server --mode development --hot"
+    "start": "webpack-dev-server --mode development --hot --open"
   }
 }

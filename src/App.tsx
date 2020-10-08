@@ -1,8 +1,13 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+import Routes from './routes'
 
 const App: React.FC = () => {
   return (
-    <h1>Olá Zé!</h1>
+    <Router>
+      <Routes />
+    </Router>
   )
 }
 
