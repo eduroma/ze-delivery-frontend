@@ -1,67 +1,114 @@
 import React from 'react';
-import { useQuery, gql } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { useLocation } from 'react-router-dom';
 
-const DISTRIBUTOR = gql`
-  query poc($id: ID!, $categoryId: Int, $search: String){
-    poc(id: $id) {
-      id
-      products(categoryId: $categoryId, search: $search) {
-        id
-        title
-        rgb
-        images {
-          url
-        }
-        productVariants {
-          availableDate
-          productVariantId
-          price
-          inventoryItemId
-          shortDescription
-          title
-          published
-          volume
-          volumeUnit
-          description
-          subtitle
-          components {
-            id
-            productVariantId
-            productVariant {
-              id
-              title
-              description
-              shortDescription
-            }
-          }
-        }
-      }
-    }
+import CATEGORIES from '../../queries/categoriesQuery';
+import PRODUCTS from '../../queries/productsQuery';
+
+import Header from '../../components/Header'
+
+import { Container, CategoriesList, CategoriesButton, ProductsGrid, ProductsCard } from './styles';
+
+interface Category {
+  id: string;
+  title: string;
+}
+
+interface CategoriesData {
+  allCategory: Category[];
+}
+
+interface ProductVariants {
+  price: number;
+}
+
+interface ProductImage {
+  url: string;
+}
+
+interface Product {
+  id: string;
+  title: string;
+  images: ProductImage[];
+  productVariants: ProductVariants[]
+}
+
+interface ProductsData {
+  poc: {
+    products: Product[]
   }
-`
+}
+
+interface ProductVars {
+  id: string;
+  search: string;
+  categoryId: string | null;
+}
 
 const useQueryParams = () => {
   return new URLSearchParams(useLocation().search);
 }
 
 const Products: React.FC = () => {
-
   const query = useQueryParams();
+  const distributorId = query.get('distributor') || "";
 
-  const { loading, error, data } = useQuery(DISTRIBUTOR, {
+  const { loading: categoriesLoading, error: categoriesError, data: categoriesData } = useQuery<CategoriesData>(CATEGORIES)
+
+  const {
+    loading: productsLoading,
+    error: productsError,
+    data: productsData,
+    refetch: productsRefetch
+  } = useQuery<ProductsData, ProductVars>(PRODUCTS, {
     variables: {
-      "id": "532",
+      "id": distributorId,
       "search": "",
       "categoryId": null
     }
   })
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  return (
+    <Container>
+      <Header />
+      <CategoriesList>
+        {
+          categoriesLoading ?
+            <p>Carregando...</p>
+            :
+            (
+              categoriesData && categoriesData.allCategory.map((category: Category) => (
+                <CategoriesButton key={category.id}>{category.title}</CategoriesButton>
+              ))
+            )
+        }
+      </CategoriesList>
+      <ProductsGrid>
+        {
+          productsLoading ?
+            <p>Carregando...</p>
+            :
+            (
+              productsData && productsData.poc.products.map((product: Product) => (
+                <ProductsCard key={product.id}>
+                  <div className='image-container'>
+                    <img src={product.images[0].url} />
+                  </div>
 
-  console.log(query.get('lgt'));
-  return <h1>Produtos</h1>
+                  <div className='name-container'>
+                    <p>{product.title}</p>
+                  </div>
+
+
+                </ProductsCard>
+              ))
+            )
+        }
+
+      </ProductsGrid>
+
+    </Container>
+  )
 }
 
 export default Products

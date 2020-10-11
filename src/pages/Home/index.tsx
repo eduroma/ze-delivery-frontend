@@ -1,20 +1,37 @@
 import React from 'react';
-
+import { useLazyQuery } from '@apollo/client'
 import { useHistory } from 'react-router-dom';
+
+import { useCoordinates } from '../../hooks/coordinates';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 import AddressInput from '../../components/AddressInput';
 
+import DISTRIBUTORS from '../../queries/distributorsQuery';
+
 import { Container, InputContainer } from './styles';
 
 const Home: React.FC = () => {
 
   const history = useHistory();
+  const { coordinates } = useCoordinates();
+
+  const [getDisDistributors, { loading, data }] = useLazyQuery(DISTRIBUTORS)
 
   const handleSubmit = () => {
-    history.push('/products?lat=1111&lgt=2222&distributor=526')
+    getDisDistributors({
+      variables: {
+        "algorithm": "NEAREST",
+        "lat": String(coordinates.lat),
+        "long": String(coordinates.lng),
+        "now": new Date()
+      }
+    })
+    if (data && data.pocSearch[0].id) {
+      history.push(`/products?distributor=${data.pocSearch[0].id}`)
+    }
   }
 
   return (

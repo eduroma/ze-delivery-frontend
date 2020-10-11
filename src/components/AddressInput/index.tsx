@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import PlacesAutoComplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 
+import { useCoordinates } from '../../hooks/coordinates';
+
 import { Container, StyledInput, StyledSuggestions } from './styles'
 
-interface CordinatesData {
-  lat: number | null;
-  lng: number | null;
-}
-
 const AddressInput: React.FC = () => {
-
   const [address, setAddress] = useState('')
-  const [coordinates, setCordinates] = useState<CordinatesData>({ lat: null, lng: null })
+  const { addCoordinates } = useCoordinates()
 
   const handleSelect = async (value: string) => {
     const results = await geocodeByAddress(value);
@@ -19,7 +15,7 @@ const AddressInput: React.FC = () => {
     const latLng = await getLatLng(results[0])
 
     setAddress(value);
-    setCordinates(latLng)
+    addCoordinates(latLng)
   }
 
   return (

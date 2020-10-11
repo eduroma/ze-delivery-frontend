@@ -5,6 +5,7 @@ import { ApolloProvider } from '@apollo/client'
 import api from './services/api';
 
 import Routes from './routes'
+import AppProvider from './hooks';
 
 import GlobalStyle from './styles/global'
 
@@ -12,7 +13,9 @@ const App: React.FC = () => {
   return (
     <Router>
       <ApolloProvider client={api}>
-        <Routes />
+        <AppProvider>
+          <Routes />
+        </AppProvider>
       </ApolloProvider>
       <GlobalStyle />
     </Router>
