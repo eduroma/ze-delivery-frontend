@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { useQuery } from '@apollo/client'
 import { useLocation } from 'react-router-dom';
 
@@ -53,6 +53,8 @@ const Products: React.FC = () => {
   const query = useQueryParams();
   const distributorId = query.get('distributor') || "";
 
+  const [search, setSearch] = useState('');
+
   const { loading: categoriesLoading, error: categoriesError, data: categoriesData } = useQuery<CategoriesData>(CATEGORIES)
 
   const {
@@ -68,17 +70,40 @@ const Products: React.FC = () => {
     }
   })
 
+  const handleCategoryClick = useCallback((categoryId) => {
+
+    productsRefetch({
+      "id": distributorId,
+      "search": "",
+      "categoryId": categoryId
+    })
+
+  }, [])
+
+  const handleSearchClick = useCallback(() => {
+
+    productsRefetch({
+      "id": distributorId,
+      "search": search,
+      "categoryId": null
+    })
+
+  }, [search])
+
   return (
     <Container>
-      <Header />
+      <Header>
+        <input type='text' value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Pesquise os produtos' />
+        <button onClick={handleSearchClick}>Pesquisar</button>
+      </Header>
       <CategoriesList>
         {
           categoriesLoading ?
-            <p>Carregando...</p>
+            <p className='loading'>Carregando Categorias...</p>
             :
             (
               categoriesData && categoriesData.allCategory.map((category: Category) => (
-                <CategoriesButton key={category.id}>{category.title}</CategoriesButton>
+                <CategoriesButton key={category.id} onClick={() => handleCategoryClick(category.id)}>{category.title}</CategoriesButton>
               ))
             )
         }
@@ -86,7 +111,7 @@ const Products: React.FC = () => {
       <ProductsGrid>
         {
           productsLoading ?
-            <p>Carregando...</p>
+            <p className='loading'>Carregando Produtos...</p>
             :
             (
               productsData && productsData.poc.products.map((product: Product) => (
@@ -107,7 +132,7 @@ const Products: React.FC = () => {
 
       </ProductsGrid>
 
-    </Container>
+    </Container >
   )
 }
 

@@ -3,6 +3,17 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
+
+  .loading {
+    color: #333;
+    font-family: 'Roboto Slab';
+    font-weight: 400;
+    font-size: 14px;
+    text-align: center;
+
+    padding: 8px;
+  }
+
 `
 
 export const CategoriesList = styled.div`
@@ -41,10 +52,11 @@ export const CategoriesButton = styled.button`
 `
 
 export const ProductsGrid = styled.div`
+  width: 100%;
 
   display: flex;
   align-items: flex-start;
-  justify-content: start;
+  justify-content: center;
   flex-wrap: wrap
 `
 
