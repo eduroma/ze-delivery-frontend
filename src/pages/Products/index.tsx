@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery, gql } from '@apollo/client'
+import { useLocation } from 'react-router-dom';
 
 const DISTRIBUTOR = gql`
   query poc($id: ID!, $categoryId: Int, $search: String){
@@ -40,7 +41,13 @@ const DISTRIBUTOR = gql`
   }
 `
 
+const useQueryParams = () => {
+  return new URLSearchParams(useLocation().search);
+}
+
 const Products: React.FC = () => {
+
+  const query = useQueryParams();
 
   const { loading, error, data } = useQuery(DISTRIBUTOR, {
     variables: {
@@ -53,7 +60,7 @@ const Products: React.FC = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  console.log(data)
+  console.log(query.get('lgt'));
   return <h1>Produtos</h1>
 }
 

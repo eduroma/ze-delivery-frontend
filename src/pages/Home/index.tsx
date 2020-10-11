@@ -1,50 +1,32 @@
-import React, { useState } from 'react';
-import PlacesAutoComplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import React from 'react';
 
-interface CordinatesData {
-  lat: number | null;
-  lng: number | null;
-}
+import { useHistory } from 'react-router-dom';
+
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+
+import AddressInput from '../../components/AddressInput';
+
+import { Container, InputContainer } from './styles';
 
 const Home: React.FC = () => {
-  const [address, setAddress] = useState('')
-  const [coordinates, setCordinates] = useState<CordinatesData>({ lat: null, lng: null })
 
-  const handleSelect = async (value: string) => {
-    const results = await geocodeByAddress(value);
+  const history = useHistory();
 
-    const latLng = await getLatLng(results[0])
-
-    setAddress(value);
-    setCordinates(latLng)
+  const handleSubmit = () => {
+    history.push('/products?lat=1111&lgt=2222&distributor=526')
   }
 
   return (
-    <PlacesAutoComplete value={address} onChange={setAddress} onSelect={handleSelect}>
-      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-        <div>
-          <p>Latitude: {coordinates.lat}</p>
-          <p>Longitude: {coordinates.lng}</p>
-
-          <input {...getInputProps({ placeholder: "Digite seu endereço" })} />
-          <div>
-            {loading && <p>Carregando...</p>}
-            {suggestions.map((suggestion) => {
-
-              const style = {
-                backgroundColor: suggestion.active ? '#41b6e6' : '#fff'
-              }
-
-
-              return <div {...getSuggestionItemProps(suggestion, {
-                style
-              })} > {suggestion.description}</div>
-            })}
-          </div>
-        </div>
-      )
-      }
-    </PlacesAutoComplete >
+    <Container>
+      <Header />
+      <InputContainer>
+        <AddressInput />
+        <button onClick={handleSubmit}>
+          Enviar
+        </button>
+      </InputContainer>
+    </Container>
   )
 }
 
