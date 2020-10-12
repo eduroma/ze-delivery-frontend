@@ -11,7 +11,7 @@ import AddressInput from '../../components/AddressInput';
 
 import DISTRIBUTORS from '../../queries/distributorsQuery';
 
-import { Container, InputContainer } from './styles';
+import { Container, InputContainer, SendButton } from './styles';
 
 const Home: React.FC = () => {
 
@@ -39,9 +39,9 @@ const Home: React.FC = () => {
       <Header />
       <InputContainer>
         <AddressInput />
-        <button onClick={handleSubmit}>
-          Enviar
-        </button>
+        <SendButton onClick={handleSubmit}>
+          BUSCAR PRODUTOS
+        </SendButton>
       </InputContainer>
     </Container>
   )

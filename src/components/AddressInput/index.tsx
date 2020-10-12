@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PlacesAutoComplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import { MdLocationOn } from 'react-icons/md';
 
 import { useCoordinates } from '../../hooks/coordinates';
 
@@ -19,21 +20,31 @@ const AddressInput: React.FC = () => {
   }
 
   return (
-    <PlacesAutoComplete value={address} onChange={setAddress} onSelect={handleSelect}>
+    <PlacesAutoComplete
+      value={address}
+      onChange={setAddress}
+      onSelect={handleSelect}
+      searchOptions={{
+        types: ['address'],
+      }}
+    >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <Container>
-          <StyledInput {...getInputProps({ placeholder: "Digite seu endereço" })} />
+          <StyledInput>
+            <MdLocationOn size={26} color='#333' />
+            <input {...getInputProps({ placeholder: "Digite seu endereço" })} />
+          </StyledInput>
           <StyledSuggestions>
-            {loading && <p>Carregando...</p>}
+            {loading && <p style={{ color: '#FFF' }}>Carregando...</p>}
             {suggestions.map((suggestion) => {
 
               const style = {
-                backgroundColor: suggestion.active ? '#41b6e6' : '#fff'
+                backgroundColor: suggestion.active ? '#333' : '#FFF',
+                color: suggestion.active ? '#FFF' : '#333'
               }
-
               return <div {...getSuggestionItemProps(suggestion, {
                 style
-              })} > {suggestion.description}</div>
+              })}> {suggestion.description}</div>
             })}
           </StyledSuggestions>
         </Container>
