@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLazyQuery } from '@apollo/client'
 import { useHistory } from 'react-router-dom';
 
@@ -17,10 +17,11 @@ const Home: React.FC = () => {
 
   const history = useHistory();
   const { coordinates } = useCoordinates();
+  const [error, setError] = useState('');
 
   const [getDisDistributors, { loading, data }] = useLazyQuery(DISTRIBUTORS)
 
-  const handleSubmit = () => {
+  useEffect(() => {
     getDisDistributors({
       variables: {
         "algorithm": "NEAREST",
@@ -29,8 +30,17 @@ const Home: React.FC = () => {
         "now": new Date()
       }
     })
-    if (data && data.pocSearch[0].id) {
+
+    setError('')
+
+  }, [coordinates.lat, coordinates.lng])
+
+  const handleSubmit = () => {
+
+    if (data && data.pocSearch && data.pocSearch.length > 0) {
       history.push(`/products?distributor=${data.pocSearch[0].id}`)
+    } else {
+      setError('Infelizmente, não encontramos produtos disponíveis para o endereço digitado.')
     }
   }
 
@@ -38,10 +48,17 @@ const Home: React.FC = () => {
     <Container>
       <Header />
       <InputContainer>
+
+        <h1><strong>Bebidas geladas</strong> a <strong>preço</strong> de mercado na sua casa <strong>agora</strong></h1>
+        {error && <p className='error-text'>{error}</p>}
+        {loading && <p>Carregando...</p>}
         <AddressInput />
-        <SendButton onClick={handleSubmit}>
-          BUSCAR PRODUTOS
-        </SendButton>
+        {
+          coordinates.lat && coordinates.lng &&
+          <SendButton onClick={handleSubmit}>
+            BUSCAR PRODUTOS
+          </SendButton>
+        }
       </InputContainer>
     </Container>
   )

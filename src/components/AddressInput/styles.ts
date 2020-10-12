@@ -56,4 +56,6 @@ export const StyledSuggestions = styled.div`
   top: calc(50% + 1.2rem + 44px );
 
   cursor: pointer;
+
+  z-index: 10;
 `
