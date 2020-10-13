@@ -11,7 +11,7 @@ import AddressInput from '../../components/AddressInput';
 
 import DISTRIBUTORS from '../../queries/distributorsQuery';
 
-import { Container, InputContainer, SendButton } from './styles';
+import { Container, InputContainer, SendButton, InfoContainer, InfoColumn } from './styles';
 
 const Home: React.FC = () => {
 
@@ -63,6 +63,30 @@ const Home: React.FC = () => {
           </SendButton>
         }
       </InputContainer>
+
+      <InfoContainer>
+        <h1>Como funciona o Zé Delivery?</h1>
+        <div>
+          <InfoColumn>
+            <img src="https://courier-images-web.imgix.net/static/img/delivery-man.png?auto=compress,format&amp;fit=max&amp;w=112&amp;h=undefined&amp;dpr=2&amp;fm=png" />
+            <h3>Onde você estiver</h3>
+            <p>Achamos as bebidas geladinhas na sua área e levamos até você!</p>
+          </InfoColumn>
+          <InfoColumn>
+            <img src="https://courier-images-web.imgix.net/static/img/welcome_how_it_works_02.png?auto=compress,format&fit=max&w=112&h=undefined&dpr=2&fm=png" />
+            <h3>Só as favoritas</h3>
+            <p>Você pode escolher entre cervejas, vinhos, água, energéticos, refrigerantes, salgadinhos e até gelo!</p>
+          </InfoColumn>
+          <InfoColumn>
+            <img src="https://courier-images-web.imgix.net/static/img/double_cellphone_greeting.png?auto=compress,format&fit=max&w=112&h=undefined&dpr=2&fm=png" />
+            <h3>Facilita seu brinde</h3>
+            <p>Suas bebidas chegam geladinhas e super rápidas, prontas para brindar!</p>
+          </InfoColumn>
+        </div>
+
+      </InfoContainer>
+
+
     </Container>
   )
 }
