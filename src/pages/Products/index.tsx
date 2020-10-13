@@ -6,8 +6,9 @@ import CATEGORIES from '../../queries/categoriesQuery';
 import PRODUCTS from '../../queries/productsQuery';
 
 import Header from '../../components/Header'
+import ProductCard from '../../components/ProductCard';
 
-import { Container, CategoriesList, CategoriesButton, ProductsGrid, ProductsCard } from './styles';
+import { Container, CategoriesList, CategoriesButton, ProductsGrid, SearchInputContainer } from './styles';
 
 interface Category {
   id: string;
@@ -26,7 +27,7 @@ interface ProductImage {
   url: string;
 }
 
-interface Product {
+export interface Product {
   id: string;
   title: string;
   images: ProductImage[];
@@ -93,9 +94,12 @@ const Products: React.FC = () => {
   return (
     <Container>
       <Header>
-        <input type='text' value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Pesquise os produtos' />
-        <button onClick={handleSearchClick}>Pesquisar</button>
+        <SearchInputContainer>
+          <input type='text' value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Digite o nome do produto...' />
+          <button onClick={handleSearchClick}>Pesquisar</button>
+        </SearchInputContainer>
       </Header>
+
       <CategoriesList>
         {
           categoriesLoading ?
@@ -108,6 +112,7 @@ const Products: React.FC = () => {
             )
         }
       </CategoriesList>
+
       <ProductsGrid>
         {
           productsLoading ?
@@ -115,17 +120,7 @@ const Products: React.FC = () => {
             :
             (
               productsData && productsData.poc.products.map((product: Product) => (
-                <ProductsCard key={product.id}>
-                  <div className='image-container'>
-                    <img src={product.images[0].url} />
-                  </div>
-
-                  <div className='name-container'>
-                    <p>{product.title}</p>
-                  </div>
-
-
-                </ProductsCard>
+                <ProductCard key={product.id} product={product} />
               ))
             )
         }

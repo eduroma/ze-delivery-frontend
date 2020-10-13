@@ -9,8 +9,10 @@ const Header: React.FC = ({ children }) => {
   return (
     <Container>
       <img src={logoImg} />
-      {children}
-    </Container>
+      <div className='children-container'>
+        {children}
+      </div>
+    </Container >
   )
 }
 

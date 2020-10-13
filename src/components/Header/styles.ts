@@ -10,13 +10,23 @@ export const Container = styled.header`
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
   img {
     margin : 10px;
     width: 121px;
     height: 40px;
   }
+
+  .children-container{
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 15px;
+  }
+
 
 `
 
