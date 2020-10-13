@@ -7,6 +7,8 @@ import api from './services/api';
 import Routes from './routes'
 import AppProvider from './hooks';
 
+import Footer from './components/Footer';
+
 import GlobalStyle from './styles/global'
 
 const App: React.FC = () => {
@@ -15,6 +17,7 @@ const App: React.FC = () => {
       <ApolloProvider client={api}>
         <AppProvider>
           <Routes />
+          <Footer />
         </AppProvider>
       </ApolloProvider>
       <GlobalStyle />

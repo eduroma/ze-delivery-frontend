@@ -17,6 +17,9 @@ export const Container = styled.div`
     text-align: center;
 
     padding: 10px;
+
+    position: absolute;
+    top: 10px;
   }
 `;
 

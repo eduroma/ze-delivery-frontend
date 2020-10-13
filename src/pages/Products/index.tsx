@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useQuery } from '@apollo/client'
 import { useLocation } from 'react-router-dom';
+import PulseLoader from 'react-spinners/PulseLoader'
 
 import CATEGORIES from '../../queries/categoriesQuery';
 import PRODUCTS from '../../queries/productsQuery';
@@ -92,7 +93,7 @@ const Products: React.FC = () => {
   }, [search])
 
   return (
-    <Container>
+    <>
       <Header>
         <SearchInputContainer>
           <input type='text' value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Digite o nome do produto...' />
@@ -100,34 +101,32 @@ const Products: React.FC = () => {
         </SearchInputContainer>
       </Header>
 
-      <CategoriesList>
+      <Container>
         {
-          categoriesLoading ?
-            <p className='loading'>Carregando Categorias...</p>
-            :
+          categoriesLoading || productsLoading ?
+            <PulseLoader size={15} color='#333' /> :
             (
-              categoriesData && categoriesData.allCategory.map((category: Category) => (
-                <CategoriesButton key={category.id} onClick={() => handleCategoryClick(category.id)}>{category.title}</CategoriesButton>
-              ))
+              <>
+                <CategoriesList>
+                  {
+                    categoriesData && categoriesData.allCategory.map((category: Category) => (
+                      <CategoriesButton key={category.id} onClick={() => handleCategoryClick(category.id)}>{category.title}</CategoriesButton>
+                    ))
+                  }
+                </CategoriesList>
+
+                <ProductsGrid>
+                  {
+                    productsData && productsData.poc.products.map((product: Product) => (
+                      <ProductCard key={product.id} product={product} />
+                    ))
+                  }
+                </ProductsGrid>
+              </>
             )
         }
-      </CategoriesList>
-
-      <ProductsGrid>
-        {
-          productsLoading ?
-            <p className='loading'>Carregando Produtos...</p>
-            :
-            (
-              productsData && productsData.poc.products.map((product: Product) => (
-                <ProductCard key={product.id} product={product} />
-              ))
-            )
-        }
-
-      </ProductsGrid>
-
-    </Container >
+      </Container >
+    </>
   )
 }
 

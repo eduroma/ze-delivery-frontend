@@ -37,6 +37,8 @@ const Home: React.FC = () => {
 
   const handleSubmit = () => {
 
+    if (loading) return null;
+
     if (data && data.pocSearch && data.pocSearch.length > 0) {
       history.push(`/products?distributor=${data.pocSearch[0].id}`)
     } else {
@@ -51,12 +53,13 @@ const Home: React.FC = () => {
 
         <h1><strong>Bebidas geladas</strong> a <strong>preço</strong> de mercado na sua casa <strong>agora</strong></h1>
         {error && <p className='error-text'>{error}</p>}
-        {loading && <p>Carregando...</p>}
         <AddressInput />
         {
           coordinates.lat && coordinates.lng &&
           <SendButton onClick={handleSubmit}>
-            BUSCAR PRODUTOS
+            {
+              loading ? 'Carregando...' : 'BUSCAR PRODUTOS'
+            }
           </SendButton>
         }
       </InputContainer>
