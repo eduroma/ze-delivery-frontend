@@ -56,6 +56,7 @@ const Products: React.FC = () => {
   const distributorId = query.get('distributor') || "";
 
   const [search, setSearch] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const { loading: categoriesLoading, error: categoriesError, data: categoriesData } = useQuery<CategoriesData>(CATEGORIES)
 
@@ -70,9 +71,13 @@ const Products: React.FC = () => {
       "search": "",
       "categoryId": null
     }
+
   })
 
   const handleCategoryClick = useCallback((categoryId) => {
+
+    setSelectedCategory(categoryId);
+    setSearch('');
 
     productsRefetch({
       "id": distributorId,
@@ -83,6 +88,8 @@ const Products: React.FC = () => {
   }, [distributorId])
 
   const handleSearchClick = useCallback(() => {
+
+    setSelectedCategory(null);
 
     productsRefetch({
       "id": distributorId,
@@ -103,14 +110,32 @@ const Products: React.FC = () => {
 
       <Container>
         {
+          categoriesError && (
+            <p className='error-text'>
+              {categoriesError.message}
+            </p>
+          )
+        }
+        {
+          productsError && (
+            <p className='error-text'>
+              {productsError.message}
+            </p>
+          )
+        }
+        {
           categoriesLoading || productsLoading ?
-            <PulseLoader size={15} color='#333' /> :
+            <div style={{ marginTop: 50 }}>
+              <PulseLoader size={15} color='#333' />
+            </div> :
             (
               <>
                 <CategoriesList>
+                  <CategoriesButton key={0} selected={!selectedCategory} onClick={() => handleCategoryClick(null)}>Todos</CategoriesButton>
                   {
-                    categoriesData && categoriesData.allCategory.map((category: Category) => (
-                      <CategoriesButton key={category.id} onClick={() => handleCategoryClick(category.id)}>{category.title}</CategoriesButton>
+                    categoriesData &&
+                    categoriesData.allCategory.map((category: Category) => (
+                      <CategoriesButton key={category.id} selected={selectedCategory === category.id} onClick={() => handleCategoryClick(category.id)}>{category.title}</CategoriesButton>
                     ))
                   }
                 </CategoriesList>

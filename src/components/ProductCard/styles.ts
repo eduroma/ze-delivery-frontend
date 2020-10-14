@@ -91,6 +91,13 @@ export const ButtonsContainer = styled.div`
 
     background: #f3f3f3;
 
+    padding: 10px 5px;
+
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.6;
+    }
   }
 
   span {
