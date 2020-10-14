@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 import { useCoordinates } from '../../hooks/coordinates';
 
 import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 
 import AddressInput from '../../components/AddressInput';
 

@@ -48,9 +48,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       </PriceContainer>
 
       <ButtonsContainer>
-        <button onClick={handleIncrement}><MdAdd size={18} color='#333' /></button>
-        <span>{quantity}</span>
-        <button onClick={handleDecrement}><MdRemove size={18} color='#333' /></button>
+        <button onClick={handleIncrement} data-testid='addButton'><MdAdd size={18} color='#333' /></button>
+        <span data-testid='quantityField'>{quantity}</span>
+        <button onClick={handleDecrement} data-testid='removeButton'><MdRemove size={18} color='#333' /></button>
       </ButtonsContainer>
 
     </Container>

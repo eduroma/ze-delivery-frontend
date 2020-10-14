@@ -80,7 +80,7 @@ const Products: React.FC = () => {
       "categoryId": categoryId
     })
 
-  }, [])
+  }, [distributorId])
 
   const handleSearchClick = useCallback(() => {
 
@@ -90,7 +90,7 @@ const Products: React.FC = () => {
       "categoryId": null
     })
 
-  }, [search])
+  }, [search, distributorId])
 
   return (
     <>
